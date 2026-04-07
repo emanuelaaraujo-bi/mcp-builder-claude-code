@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mcp-builder": {
+      "type": "command",
+      "command": "python",
+      "args": ["mcp-auth-proxy.py"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "MCP_BUILDER_URL": "${MCP_BUILDER_URL}"
+      }
+    }
+  }
+}
