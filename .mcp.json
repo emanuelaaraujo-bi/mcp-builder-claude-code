@@ -1,7 +1,6 @@
 {
   "mcpServers": {
     "mcp-builder": {
-      "type": "command",
       "command": "python",
       "args": ["mcp-auth-proxy.py"],
       "env": {
