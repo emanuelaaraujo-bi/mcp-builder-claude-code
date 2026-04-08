@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python mcp-auth-proxy.py --login-only)",
+      "Bash(python mcp-auth-proxy.py)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "mcp-builder"
+  ]
+}

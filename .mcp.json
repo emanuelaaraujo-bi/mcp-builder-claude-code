@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "mcp-builder": {
-      "type": "command",
+      "type": "stdio",
       "command": "python",
       "args": ["mcp-auth-proxy.py"],
       "env": {

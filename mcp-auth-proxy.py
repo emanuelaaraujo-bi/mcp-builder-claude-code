@@ -6,7 +6,7 @@ Usage in .mcp.json:
   {
     "mcpServers": {
       "mcp-builder": {
-        "type": "command",
+        "type": "stdio",
         "command": "python",
         "args": ["tools/mcp-auth-proxy.py"],
         "env": {
