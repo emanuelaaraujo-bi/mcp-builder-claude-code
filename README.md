@@ -83,6 +83,99 @@ mcp-auth-proxy.py      # Proxy de autenticacao Google OAuth -> MCP
 README.md              # Este arquivo
 ```
 
+## Configuracao Global (usar em qualquer projeto)
+
+Por padrao, o `.mcp.json` funciona apenas quando voce abre o Claude Code dentro da pasta do projeto. Para que o MCP Builder fique disponivel **em qualquer diretorio**, siga os passos abaixo:
+
+### Opcao 1: Via comando do Claude Code (recomendado)
+
+Dentro do Claude Code, digite:
+
+```
+/mcp
+```
+
+Selecione **"Add new MCP server"**, depois **"command (stdio)"**, e preencha:
+
+- **Name:** `mcp-builder`
+- **Command:** `python`
+- **Args:** caminho absoluto para o script, por exemplo:
+  - Linux/Mac: `/home/seu-usuario/mcp-builder-claude-code/mcp-auth-proxy.py`
+  - Windows: `C:\Users\seu-usuario\mcp-builder-claude-code\mcp-auth-proxy.py`
+
+Escolha o escopo **"User"** para que fique disponivel globalmente.
+
+### Opcao 2: Editando o arquivo manualmente
+
+O Claude Code armazena configuracoes globais de MCP no arquivo:
+
+| SO | Caminho |
+|---|---|
+| **Linux/Mac** | `~/.claude/.mcp.json` |
+| **Windows** | `C:\Users\<seu-usuario>\.claude\.mcp.json` |
+
+**Passo 1:** Crie (ou edite) o arquivo `.mcp.json` na pasta `~/.claude/`:
+
+**Linux/Mac:**
+
+```bash
+mkdir -p ~/.claude
+nano ~/.claude/.mcp.json
+```
+
+**Windows (PowerShell):**
+
+```powershell
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude"
+notepad "$env:USERPROFILE\.claude\.mcp.json"
+```
+
+**Passo 2:** Cole o conteudo abaixo, ajustando o caminho absoluto do script:
+
+**Linux/Mac:**
+
+```json
+{
+  "mcpServers": {
+    "mcp-builder": {
+      "type": "command",
+      "command": "python",
+      "args": ["/caminho/completo/para/mcp-builder-claude-code/mcp-auth-proxy.py"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "MCP_BUILDER_URL": "${MCP_BUILDER_URL}"
+      }
+    }
+  }
+}
+```
+
+**Windows:**
+
+```json
+{
+  "mcpServers": {
+    "mcp-builder": {
+      "type": "command",
+      "command": "python",
+      "args": ["C:\\Users\\seu-usuario\\mcp-builder-claude-code\\mcp-auth-proxy.py"],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "MCP_BUILDER_URL": "${MCP_BUILDER_URL}"
+      }
+    }
+  }
+}
+```
+
+**Passo 3:** Reinicie o Claude Code e verifique com `/mcp` — o servidor `mcp-builder` deve aparecer independentemente do diretorio em que voce estiver.
+
+> **Importante:** O caminho para `mcp-auth-proxy.py` deve ser **absoluto** (completo), pois o Claude Code pode ser aberto de qualquer diretorio. Caminhos relativos so funcionam quando voce esta dentro da pasta do projeto.
+
+> **Dica:** Se voce ja tem um `.mcp.json` global com outros servidores, basta adicionar a entrada `"mcp-builder"` dentro do objeto `"mcpServers"` existente.
+
 ## Renovacao de token
 
 O token e salvo em `~/.mcp-builder/` e renovado automaticamente. Se expirar ou houver problemas, execute o passo 4 novamente.
